@@ -6,11 +6,12 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Person extends CI_Controller {
+class Person extends Controller {
     
     public function index()
     {
-        $this->load->template("person/view");
+        $this->title = "All Persons";
+        $this->genratePagination($this->person_model, "Person/index");
+        $this->load->template("person/view", $this->data);
     }
-    
 }

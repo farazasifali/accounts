@@ -109,4 +109,99 @@ class Controller extends CI_Controller
         $this->load->library("Auth_Library");
         $this->auth = new Auth_Library();
     }
+    
+    /*
+     * Function that create pagination
+     * @param $totalrows, $perpageItem, $currentpage, base_url, $extraparameters if exists
+     * @return pagination html as string
+     */
+    public function pagination($totalRows, $perPage, $currentPage, $base_url, $extraParameter = FALSE)
+    {
+        $totalPages = ceil($totalRows/$perPage);
+        $output = false;
+        if($totalPages >= $currentPage)
+        {
+            $output = "<ul class='pagination'>";
+
+            if($currentPage > 1)
+            {
+                if($extraParameter)
+                {
+                    $url = $base_url.'?page='.($currentPage-1).'&per_page='.$perPage."&".$extraParameter;
+                } else {
+                    $url = $base_url.'?page='.($currentPage-1).'&per_page='.$perPage;
+                }
+
+                $output .= "<li class='prev'><a href='$url'>«</a></li>";
+            }
+
+            $counterI = $i = 1;
+
+            if($currentPage%5 == 0)
+            {
+                $i = $currentPage - 2;
+            } else {
+                if($currentPage >= 5)
+                {
+                    $i = $currentPage - 2;
+                }
+            }
+
+            for($i; $i <= $totalPages; $i++)
+            {
+                if($counterI <= 5 )
+                {
+                    if($extraParameter)
+                    {
+                        $url = $base_url.'?page='.$i.'&per_page='.$perPage."&".$extraParameter;
+                    } else {
+                        $url = $base_url.'?page='.$i.'&per_page='.$perPage;
+                    }
+
+                    if($i == $currentPage)
+                    {
+                        $output .= "<li class='active'><a href='$url'>$i</a></li>";
+                    } else {
+                        $output .= "<li><a href='$url'>$i</a></li>";
+                    }
+                }
+                $counterI++;
+
+            }
+            if($currentPage < $totalPages)
+            {
+                if($extraParameter)
+                {
+                    $url = $base_url.'?page='.($currentPage+1).'&per_page='.$perPage."&".$extraParameter;
+                } else {
+                    $url = $base_url.'?page='.($currentPage+1).'&per_page='.$perPage;
+                }
+                $output .= "<li class='next'><a href='$url'>»</a></li>";
+            }
+
+            $output .= "</ul>";
+        }
+        return $output;
+    }
+    
+    /*
+     * Function that genrate pagination
+     * and sets data to global view array
+     * @param $model of table, $route Controller/method, $extraparameters if any
+     */
+    public function genratePagination($model, $route, $extraParameters = FALSE)
+    {
+        $page = isset($_GET['page']) && (int)($_GET['page']) ? $_GET['page'] : 1;
+        $per_page = isset($_GET['per_page']) && (int)($_GET['per_page']) ? $_GET['per_page'] : 28;
+        
+        $this->data['total_records'] = $model->count_all();
+        if($this->data['total_records'])
+        {
+            $baseUrl = site_url($route);
+            $offset = (($page - 1) * $per_page);
+            $this->data['showing'] = ((($per_page * $page) - $per_page) + 1).' - '.(($per_page * $page) > $this->data['total_records'] ? $this->data['total_records'] : ($per_page * $page)).' of '.$this->data['total_records'];
+            $this->data['records'] = $model->paginate($per_page, $offset);
+            $this->data["pagination"] = $this->pagination($this->data['total_records'], $per_page, $page, $baseUrl, $extraParameters);
+        }
+    }
 }

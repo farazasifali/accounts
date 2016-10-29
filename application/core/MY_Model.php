@@ -50,4 +50,37 @@ class MY_Model extends CI_Model
         }
         return false;
     }
+    
+    public function get($column, $value)
+    {
+        $this->db->where($column, $value);
+        $result = $this->db->get($this->table);
+        if($result->num_rows() > 0)
+        {
+            return $result->result();
+        }
+        return false;
+    }
+    
+    public function get_all()
+    {
+        $result = $this->db->get($this->table);
+        return $result->result();
+    }
+    
+    public function count_all()
+    {
+        return $this->db->count_all($this->table);
+    }
+    
+    public function paginate($offset, $limit)
+    {
+        $this->db->limit($limit, $offset);
+        $result = $this->db->get($this->table);
+        if($result->num_rows() > 0)
+        {
+            return $result;
+        }
+        return false;
+    }
 }

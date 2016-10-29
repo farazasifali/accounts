@@ -9,7 +9,7 @@
     
     <div class="row">
         <div class="col-lg-12">
-            <h1>Further Code</h1>
+            <?php info($this->data); ?>
         </div>
     </div>
     <!-- /.row -->

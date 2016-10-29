@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="<?php echo site_url(); ?>">Exclusive Accounts</a>
+        <a class="navbar-brand" href="<?php echo site_url(); ?>">Accounts</a>
     </div>
     <!-- /.navbar-header -->
 

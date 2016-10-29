@@ -6,7 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Expenses extends CI_Controller {
+class Expenses extends Controller {
     
     public function index()
     {

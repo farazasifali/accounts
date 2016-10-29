@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Exclusive Accounts</title>
+    <title>Accounts</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url("assets/plugins/bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">
