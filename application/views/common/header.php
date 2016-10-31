@@ -6,23 +6,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="<?= $this->description; ?>">
+    <meta name="author" content="<?= $this->author; ?>">
 
-    <title>Accounts</title>
+    <title><?= $this->title; ?></title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url("assets/plugins/bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="<?php echo base_url("assets/plugins/metisMenu/metisMenu.min.css"); ?>" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="<?php echo base_url("assets/css/sb-admin-2.css"); ?>" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="<?php echo base_url("assets/plugins/font-awesome/css/font-awesome.min.css"); ?>" rel="stylesheet" type="text/css">
-
+    <link href="<?= plugin("bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">
+    <link href="<?= plugin("metisMenu/metisMenu.min.css"); ?>" rel="stylesheet">
+    <link href="<?= plugin("font-awesome/css/font-awesome.min.css"); ?>" rel="stylesheet">
+     
+    <link href="<?= stylesheet("sb-admin-2"); ?>" rel="stylesheet">
+    <link href="<?= stylesheet("style"); ?>" rel="stylesheet">
 </head>
 
 <body>

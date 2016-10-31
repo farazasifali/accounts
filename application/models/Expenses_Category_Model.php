@@ -12,4 +12,14 @@ class Expenses_Category_Model extends MY_Model {
     {
         parent::__construct();
     }
+    
+    public function getName($id)
+    {
+        $data = $this->get('exp_cat_id', $id);
+        if($data)
+        {
+            return $data[0]->exp_cat_name;
+        }
+        return 'deleted';
+    }
 }

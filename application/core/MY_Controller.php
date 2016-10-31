@@ -9,10 +9,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Controller extends CI_Controller
 {
     //Properties That Contain Meta Deta
-    public  $title = "", //Title Of Page
-            $description = "", //Meta Description Of Page
+    public  $title = "Accounts", //Title Of Page
+            $description = "Daily Expense Manager", //Meta Description Of Page
             $keywords = "", //Meta Keywords Of Page
-            $author = ""; //Meta Author Data
+            $author = "Faraz A."; //Meta Author Data
     
     //Properties That Contain Model Instances Of Application
     public  $user_model, //User Model instance
@@ -30,11 +30,13 @@ class Controller extends CI_Controller
     public  $auth; //Login User Auth Instance
             
     //Properties That Contain All Data For View
-    public  $data = array(); // View Data Array
+    public  $data = array(), // Stores Data for view Array
+            $view = ''; // Stores HTML Data for view Array
     
     public function __construct() {
         parent::__construct();
         $this->init();
+        $this->output->enable_profiler(TRUE);
     }
     
     //Fuction That Initialize Application Data
@@ -93,7 +95,7 @@ class Controller extends CI_Controller
     {
         $this->employee_model->setTable('employee');
         $this->expenses_model->setTable('expenses');
-        $this->expenses_category_model->setTable('expenses_category');
+        $this->expenses_category_model->setTable('expense_category');
         $this->person_model->setTable('persons');
         $this->transaction_model->setTable('transactions');
         $this->user_model->setTable('users');
@@ -108,6 +110,23 @@ class Controller extends CI_Controller
     {
         $this->load->library("Auth_Library");
         $this->auth = new Auth_Library();
+    }
+    
+    /*
+     * Function That load Template for listing data
+     */
+    public function listView($view){
+        $this->view .= $this->load->view($view, $this->data, TRUE);
+        $this->view .= $this->load->view("template/list-foot", $this->data, TRUE);
+        $this->load->template("template/page");
+    }
+    
+    /*
+     * Function That load Template for from
+     */
+    public function formView($view){
+        $this->view .= $this->load->view($view, $this->data, TRUE);
+        $this->load->template("template/page");
     }
     
     /*
@@ -189,10 +208,10 @@ class Controller extends CI_Controller
      * and sets data to global view array
      * @param $model of table, $route Controller/method, $extraparameters if any
      */
-    public function genratePagination($model, $route, $extraParameters = FALSE)
+    public function genratePagination($model, $route, $orderBy, $extraParameters = FALSE)
     {
         $page = isset($_GET['page']) && (int)($_GET['page']) ? $_GET['page'] : 1;
-        $per_page = isset($_GET['per_page']) && (int)($_GET['per_page']) ? $_GET['per_page'] : 28;
+        $per_page = isset($_GET['per_page']) && (int)($_GET['per_page']) ? $_GET['per_page'] : 10;
         
         $this->data['total_records'] = $model->count_all();
         if($this->data['total_records'])
@@ -200,7 +219,7 @@ class Controller extends CI_Controller
             $baseUrl = site_url($route);
             $offset = (($page - 1) * $per_page);
             $this->data['showing'] = ((($per_page * $page) - $per_page) + 1).' - '.(($per_page * $page) > $this->data['total_records'] ? $this->data['total_records'] : ($per_page * $page)).' of '.$this->data['total_records'];
-            $this->data['records'] = $model->paginate($per_page, $offset);
+            $this->data['records'] = $model->paginate($offset, $per_page, $orderBy);
             $this->data["pagination"] = $this->pagination($this->data['total_records'], $per_page, $page, $baseUrl, $extraParameters);
         }
     }

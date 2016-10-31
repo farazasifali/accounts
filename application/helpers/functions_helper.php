@@ -36,3 +36,33 @@ function setMessage($status, $message)
                 "message" => $message
             ));
 }
+
+function stylesheet($name)
+{
+    return base_url("assets/css/".$name.".css");
+}
+
+function plugin($path)
+{
+    return base_url("assets/plugins/".$path);
+}
+
+function script($name)
+{
+    return base_url("assets/js/".$name.".js");
+}
+
+function image($path)
+{
+    return base_url("assets/img/".$path);
+}
+
+function upload($name)
+{
+    return base_url("uploads/".$name);
+}
+
+function assets($path)
+{
+    return base_url("assets/".$path);
+}

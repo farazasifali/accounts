@@ -73,13 +73,14 @@ class MY_Model extends CI_Model
         return $this->db->count_all($this->table);
     }
     
-    public function paginate($offset, $limit)
+    public function paginate($offset, $limit, $orderBy)
     {
         $this->db->limit($limit, $offset);
+        $this->db->order_by($orderBy, "desc");
         $result = $this->db->get($this->table);
         if($result->num_rows() > 0)
         {
-            return $result;
+            return $result->result();
         }
         return false;
     }
